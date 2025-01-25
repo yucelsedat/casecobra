@@ -2,7 +2,9 @@ import { Icons } from "@/components/icons";
 import MaxWidthWrapper from "@/components/max-width-wrapper";
 import Phone from "@/components/phone";
 import Reviews from "@/components/reviews";
-import { Check, Star } from "lucide-react";
+import { buttonVariants } from "@/components/ui/button";
+import { ArrowRight, Check, Star } from "lucide-react";
+import Link from "next/link";
 
 export default function Home() {
   return (
@@ -193,6 +195,19 @@ export default function Home() {
               5 year print warranty
             </li>
           </ul>
+
+          {/* CREATE CASE BUTTON */}
+          <div className="flex justify-center">
+            <Link 
+              className={buttonVariants({
+                size: 'lg',
+                className: 'mx-auto mt-8'
+              })} 
+              href={'/configure/upload'}
+            >
+              create your case now <ArrowRight className="h-4 w-4 ml-1.5" />
+            </Link>
+          </div>
         </MaxWidthWrapper>
       </section>
     </div>
