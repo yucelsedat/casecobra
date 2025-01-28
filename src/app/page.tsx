@@ -76,7 +76,9 @@ export default function Home() {
         </MaxWidthWrapper>
       </section>
 
-      {/* value proposition section */}
+
+      {/* TESTIMONIALS SECTION */}
+
       <section className="bg-slate-100">
         <MaxWidthWrapper className="flex flex-col items-center gap-16 sm:gap-32">
           <div className="flex flex-col lg:flex-row items-center gap-4 sm:gap-6">
@@ -154,7 +156,10 @@ export default function Home() {
         </div>
         
       </section>
+      
 
+      {/* CREATE CASE SECTION */}
+      
       <section>
         <MaxWidthWrapper className="py-24">
           <div className="mb-12 px-6 lg:px-8">
