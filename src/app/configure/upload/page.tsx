@@ -1,23 +1,53 @@
 'use client'
 
 import { Progress } from "@/components/ui/progress"
+import { useUploadThing } from "@/lib/uploadthing"
 import { cn } from "@/lib/utils"
-import { div, image, p, span } from "framer-motion/client"
 import { Image, Loader2, MousePointerSquareDashed } from "lucide-react"
+import { useRouter } from "next/navigation"
 import { useState, useTransition } from "react"
 import Dropzone, { FileRejection } from 'react-dropzone'
+import { toast } from 'sonner'
 
 export default function Page() {
-
   const [isDragOver, setIsDragOver] = useState<boolean>(false)
   const [uploadProgress, setUploadProgress] = useState<number>(15)
+  const router = useRouter()
 
-  const onDropRejected = () => {}
-  const onDropAccepted = () => {
-    console.log('accepted')
+  const {startUpload, isUploading} = useUploadThing('imageUploader', {
+    onClientUploadComplete: ([data]) => {
+      const configId = data.serverData.configId      
+      startTransition(() => {
+        router.push(`/configure/design?id=${configId}`)
+      })
+    },
+    onUploadError:(error: Error) => {
+      // Do something with the error.
+      toast.error(`ERROR! ${error.message}`,{
+        // description: 'Lütfen PNG, JPG veya JPEG seçin',
+      })
+    },
+    onUploadProgress(p) {
+      setUploadProgress(p)
+    },
+  })
+
+  const onDropRejected = (rejectedFiles: FileRejection[]) => {
+    const [file] = rejectedFiles
+
+    setIsDragOver(false)
+
+    toast.error(`${file.file.type} type is not supported.`,{
+      description: 'Lütfen PNG, JPG veya JPEG seçin',
+    })
+  }
+  const onDropAccepted = (acceptedFiles: File[]) => {
+    // yukarı kısma startUpload dedikten sonra burada kullanalım
+    startUpload(acceptedFiles, { configId: undefined })
+
+    setIsDragOver(false)
   }
 
-  const isUploading = false
   const [isPending, startTransition] = useTransition()
   
   return (
